@@ -12,14 +12,63 @@ This plugin enforces a three-phase workflow with hard gates between each phase, 
 
 ## Installation
 
+### From GitHub (recommended for sharing)
+
+Once this repo is pushed to GitHub, install in two steps:
+
 ```bash
-claude plugin install github:<your-username>/claude-rpi
+# 1. Add the marketplace (one-time setup)
+claude plugin marketplace add github:YOUR_USERNAME/claude-rpi-marketplace
+
+# 2. Install the plugin
+claude plugin install claude-rpi@claude-rpi-marketplace
 ```
 
-Or install from a local directory:
+### From a local clone
+
+If you've cloned the repo locally, you can set up a local marketplace:
 
 ```bash
-claude plugin install ./claude-rpi
+# 1. Clone the repo
+git clone https://github.com/YOUR_USERNAME/claude-rpi.git
+cd claude-rpi
+
+# 2. Create a local marketplace that points to the plugin
+mkdir -p /tmp/claude-rpi-marketplace/.claude-plugin /tmp/claude-rpi-marketplace/plugins
+ln -s "$(pwd)" /tmp/claude-rpi-marketplace/plugins/claude-rpi
+cat > /tmp/claude-rpi-marketplace/.claude-plugin/marketplace.json << 'EOF'
+{
+  "name": "claude-rpi-local",
+  "description": "Local marketplace for claude-rpi",
+  "owner": { "name": "local" },
+  "plugins": [{
+    "name": "claude-rpi",
+    "description": "Research-Plan-Implement workflow",
+    "version": "0.1.0",
+    "source": "./plugins/claude-rpi",
+    "category": "development"
+  }]
+}
+EOF
+
+# 3. Register the marketplace and install
+claude plugin marketplace add /tmp/claude-rpi-marketplace
+claude plugin install claude-rpi@claude-rpi-local
+```
+
+### After installation
+
+Restart Claude Code to pick up the new plugin. Verify with:
+
+```bash
+claude plugin list  # Should show claude-rpi as enabled
+```
+
+### Uninstall
+
+```bash
+claude plugin uninstall claude-rpi
+claude plugin marketplace remove claude-rpi-local  # if using local marketplace
 ```
 
 ## Quick Start
