@@ -188,7 +188,7 @@ These files persist across sessions, so you can:
 ## Credits
 
 - Methodology inspired by [Boris Tane's article](https://boristane.com/blog/how-i-use-claude-code/) on the Research-Plan-Implement workflow
-- Built for [Claude Code](https://claude.ai/code) by Anthropic
+- Built for Anthropic's [Claude Code](https://claude.ai/code)
 
 ## License
 
