@@ -1,0 +1,23 @@
+{
+  "name": "claude-rpi",
+  "description": "Research-Plan-Implement: A systematic workflow for AI-assisted software development. Enforces deep codebase research, iterative planning with annotation cycles, and supervised implementation with specialized agents.",
+  "version": "0.1.0",
+  "author": {
+    "name": "",
+    "url": ""
+  },
+  "homepage": "",
+  "repository": "",
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "research",
+    "planning",
+    "implementation",
+    "methodology",
+    "agents",
+    "teams"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/"
+}
