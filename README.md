@@ -71,6 +71,72 @@ claude plugin uninstall claude-rpi
 claude plugin marketplace remove claude-rpi-local  # if using local marketplace
 ```
 
+### For AI Agents: Automated Installation
+
+If you are an AI coding agent (Claude Code, etc.) and have been asked to install this plugin, run the following commands in sequence. No human input required.
+
+**From GitHub:**
+
+```bash
+# Clone to temp, create marketplace, install — all in one go
+REPO_URL="https://github.com/YOUR_USERNAME/claude-rpi.git" && \
+CLONE_DIR="/tmp/claude-rpi-$(date +%s)" && \
+MARKET_DIR="/tmp/claude-rpi-marketplace-$(date +%s)" && \
+git clone "$REPO_URL" "$CLONE_DIR" && \
+mkdir -p "$MARKET_DIR/.claude-plugin" "$MARKET_DIR/plugins" && \
+ln -s "$CLONE_DIR" "$MARKET_DIR/plugins/claude-rpi" && \
+cat > "$MARKET_DIR/.claude-plugin/marketplace.json" << 'MKJSON'
+{
+  "name": "claude-rpi-local",
+  "description": "Local marketplace for claude-rpi",
+  "owner": { "name": "local" },
+  "plugins": [{
+    "name": "claude-rpi",
+    "description": "Research-Plan-Implement workflow",
+    "version": "0.1.0",
+    "source": "./plugins/claude-rpi",
+    "category": "development"
+  }]
+}
+MKJSON
+claude plugin marketplace add "$MARKET_DIR" && \
+claude plugin install claude-rpi@claude-rpi-local --scope user
+```
+
+**From a local path** (if the repo is already cloned):
+
+```bash
+# Replace PLUGIN_DIR with the actual path to the claude-rpi directory
+PLUGIN_DIR="/path/to/claude-rpi" && \
+MARKET_DIR="/tmp/claude-rpi-marketplace-$(date +%s)" && \
+mkdir -p "$MARKET_DIR/.claude-plugin" "$MARKET_DIR/plugins" && \
+ln -s "$PLUGIN_DIR" "$MARKET_DIR/plugins/claude-rpi" && \
+cat > "$MARKET_DIR/.claude-plugin/marketplace.json" << 'MKJSON'
+{
+  "name": "claude-rpi-local",
+  "description": "Local marketplace for claude-rpi",
+  "owner": { "name": "local" },
+  "plugins": [{
+    "name": "claude-rpi",
+    "description": "Research-Plan-Implement workflow",
+    "version": "0.1.0",
+    "source": "./plugins/claude-rpi",
+    "category": "development"
+  }]
+}
+MKJSON
+claude plugin marketplace add "$MARKET_DIR" && \
+claude plugin install claude-rpi@claude-rpi-local --scope user
+```
+
+**Verify installation succeeded:**
+
+```bash
+claude plugin list 2>&1 | grep -q "claude-rpi" && echo "SUCCESS: claude-rpi installed" || echo "FAILED: claude-rpi not found"
+```
+
+After installation, the session must be restarted for the plugin to take effect. The `/rpi`, `/rpi-research`, `/rpi-plan`, and `/rpi-implement` commands will then be available.
+
 ## Quick Start
 
 ```
