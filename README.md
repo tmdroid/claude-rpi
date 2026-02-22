@@ -12,124 +12,49 @@ This plugin enforces a three-phase workflow with hard gates between each phase, 
 
 ## Installation
 
-### From GitHub (recommended for sharing)
-
-Once this repo is pushed to GitHub, install in two steps:
+### From GitHub (recommended)
 
 ```bash
-# 1. Add the marketplace (one-time setup)
-claude plugin marketplace add github:tmdroid/claude-rpi-marketplace
+# 1. Add the tmdroid plugins marketplace (one-time setup)
+claude plugin marketplace add tmdroid/claude-plugins-marketplace
 
 # 2. Install the plugin
-claude plugin install claude-rpi@claude-rpi-marketplace
+claude plugin install claude-rpi@tmdroid-plugins
 ```
 
-### From a local clone
+That's it. Restart Claude Code and `/rpi` is ready to use.
 
-If you've cloned the repo locally, you can set up a local marketplace:
+### Verify installation
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/tmdroid/claude-rpi.git
-cd claude-rpi
-
-# 2. Create a local marketplace that points to the plugin
-mkdir -p /tmp/claude-rpi-marketplace/.claude-plugin /tmp/claude-rpi-marketplace/plugins
-ln -s "$(pwd)" /tmp/claude-rpi-marketplace/plugins/claude-rpi
-cat > /tmp/claude-rpi-marketplace/.claude-plugin/marketplace.json << 'EOF'
-{
-  "name": "claude-rpi-local",
-  "description": "Local marketplace for claude-rpi",
-  "owner": { "name": "local" },
-  "plugins": [{
-    "name": "claude-rpi",
-    "description": "Research-Plan-Implement workflow",
-    "version": "0.1.0",
-    "source": "./plugins/claude-rpi",
-    "category": "development"
-  }]
-}
-EOF
-
-# 3. Register the marketplace and install
-claude plugin marketplace add /tmp/claude-rpi-marketplace
-claude plugin install claude-rpi@claude-rpi-local
+claude plugin list  # Should show: claude-rpi@tmdroid-plugins ✔ enabled
 ```
 
-### After installation
-
-Restart Claude Code to pick up the new plugin. Verify with:
+### Update
 
 ```bash
-claude plugin list  # Should show claude-rpi as enabled
+claude plugin marketplace update tmdroid-plugins
+claude plugin update claude-rpi@tmdroid-plugins
 ```
 
 ### Uninstall
 
 ```bash
 claude plugin uninstall claude-rpi
-claude plugin marketplace remove claude-rpi-local  # if using local marketplace
+# Optionally remove the marketplace too:
+claude plugin marketplace remove tmdroid-plugins
 ```
 
 ### For AI Agents: Automated Installation
 
-If you are an AI coding agent (Claude Code, etc.) and have been asked to install this plugin, run the following commands in sequence. No human input required.
-
-**From GitHub:**
+If you are an AI coding agent and have been asked to install this plugin, run these commands. No human input required.
 
 ```bash
-# Clone to temp, create marketplace, install — all in one go
-REPO_URL="https://github.com/tmdroid/claude-rpi.git" && \
-CLONE_DIR="/tmp/claude-rpi-$(date +%s)" && \
-MARKET_DIR="/tmp/claude-rpi-marketplace-$(date +%s)" && \
-git clone "$REPO_URL" "$CLONE_DIR" && \
-mkdir -p "$MARKET_DIR/.claude-plugin" "$MARKET_DIR/plugins" && \
-ln -s "$CLONE_DIR" "$MARKET_DIR/plugins/claude-rpi" && \
-cat > "$MARKET_DIR/.claude-plugin/marketplace.json" << 'MKJSON'
-{
-  "name": "claude-rpi-local",
-  "description": "Local marketplace for claude-rpi",
-  "owner": { "name": "local" },
-  "plugins": [{
-    "name": "claude-rpi",
-    "description": "Research-Plan-Implement workflow",
-    "version": "0.1.0",
-    "source": "./plugins/claude-rpi",
-    "category": "development"
-  }]
-}
-MKJSON
-claude plugin marketplace add "$MARKET_DIR" && \
-claude plugin install claude-rpi@claude-rpi-local --scope user
+claude plugin marketplace add tmdroid/claude-plugins-marketplace && \
+claude plugin install claude-rpi@tmdroid-plugins --scope user
 ```
 
-**From a local path** (if the repo is already cloned):
-
-```bash
-# Replace PLUGIN_DIR with the actual path to the claude-rpi directory
-PLUGIN_DIR="/path/to/claude-rpi" && \
-MARKET_DIR="/tmp/claude-rpi-marketplace-$(date +%s)" && \
-mkdir -p "$MARKET_DIR/.claude-plugin" "$MARKET_DIR/plugins" && \
-ln -s "$PLUGIN_DIR" "$MARKET_DIR/plugins/claude-rpi" && \
-cat > "$MARKET_DIR/.claude-plugin/marketplace.json" << 'MKJSON'
-{
-  "name": "claude-rpi-local",
-  "description": "Local marketplace for claude-rpi",
-  "owner": { "name": "local" },
-  "plugins": [{
-    "name": "claude-rpi",
-    "description": "Research-Plan-Implement workflow",
-    "version": "0.1.0",
-    "source": "./plugins/claude-rpi",
-    "category": "development"
-  }]
-}
-MKJSON
-claude plugin marketplace add "$MARKET_DIR" && \
-claude plugin install claude-rpi@claude-rpi-local --scope user
-```
-
-**Verify installation succeeded:**
+Verify:
 
 ```bash
 claude plugin list 2>&1 | grep -q "claude-rpi" && echo "SUCCESS: claude-rpi installed" || echo "FAILED: claude-rpi not found"
