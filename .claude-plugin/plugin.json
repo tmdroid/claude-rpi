@@ -3,8 +3,11 @@
   "description": "Research-Plan-Implement: A systematic workflow for AI-assisted software development. Enforces deep codebase research, iterative planning with annotation cycles, and supervised implementation with specialized agents.",
   "version": "0.1.0",
   "author": {
-    "name": "claude-rpi contributors"
+    "name": "tmdroid",
+    "url": "https://github.com/tmdroid"
   },
+  "homepage": "https://github.com/tmdroid/claude-rpi",
+  "repository": "https://github.com/tmdroid/claude-rpi",
   "license": "MIT",
   "keywords": [
     "workflow",

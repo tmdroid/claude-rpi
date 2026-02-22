@@ -18,7 +18,7 @@ Once this repo is pushed to GitHub, install in two steps:
 
 ```bash
 # 1. Add the marketplace (one-time setup)
-claude plugin marketplace add github:YOUR_USERNAME/claude-rpi-marketplace
+claude plugin marketplace add github:tmdroid/claude-rpi-marketplace
 
 # 2. Install the plugin
 claude plugin install claude-rpi@claude-rpi-marketplace
@@ -30,7 +30,7 @@ If you've cloned the repo locally, you can set up a local marketplace:
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/claude-rpi.git
+git clone https://github.com/tmdroid/claude-rpi.git
 cd claude-rpi
 
 # 2. Create a local marketplace that points to the plugin
@@ -79,7 +79,7 @@ If you are an AI coding agent (Claude Code, etc.) and have been asked to install
 
 ```bash
 # Clone to temp, create marketplace, install — all in one go
-REPO_URL="https://github.com/YOUR_USERNAME/claude-rpi.git" && \
+REPO_URL="https://github.com/tmdroid/claude-rpi.git" && \
 CLONE_DIR="/tmp/claude-rpi-$(date +%s)" && \
 MARKET_DIR="/tmp/claude-rpi-marketplace-$(date +%s)" && \
 git clone "$REPO_URL" "$CLONE_DIR" && \
