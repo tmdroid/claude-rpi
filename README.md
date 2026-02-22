@@ -16,7 +16,7 @@ This plugin enforces a three-phase workflow with hard gates between each phase, 
 
 ```bash
 # 1. Add the tmdroid plugins marketplace (one-time setup)
-claude plugin marketplace add tmdroid/claude-plugins-marketplace
+claude plugin marketplace add tmdroid/tmdroid-plugins
 
 # 2. Install the plugin
 claude plugin install claude-rpi@tmdroid-plugins
@@ -50,7 +50,7 @@ claude plugin marketplace remove tmdroid-plugins
 If you are an AI coding agent and have been asked to install this plugin, run these commands. No human input required.
 
 ```bash
-claude plugin marketplace add tmdroid/claude-plugins-marketplace && \
+claude plugin marketplace add tmdroid/tmdroid-plugins && \
 claude plugin install claude-rpi@tmdroid-plugins --scope user
 ```
 
