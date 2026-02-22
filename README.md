@@ -1,6 +1,6 @@
 # claude-rpi
 
-A Claude Code plugin implementing the **Research-Plan-Implement** methodology — a systematic workflow for AI-assisted software development.
+A **Research-Plan-Implement** workflow plugin for **Claude Code** and **OpenAI Codex CLI** — systematic AI-assisted software development with deep research, iterative planning, and supervised implementation.
 
 Based on [How I Use Claude Code](https://boristane.com/blog/how-i-use-claude-code/) by Boris Tane.
 
@@ -12,7 +12,7 @@ This plugin enforces a three-phase workflow with hard gates between each phase, 
 
 ## Installation
 
-### From GitHub (recommended)
+### Claude Code (recommended)
 
 ```bash
 # 1. Add the tmdroid plugins marketplace (one-time setup)
@@ -61,6 +61,35 @@ claude plugin list 2>&1 | grep -q "claude-rpi" && echo "SUCCESS: claude-rpi inst
 ```
 
 After installation, the session must be restarted for the plugin to take effect. The `/rpi`, `/rpi-research`, `/rpi-plan`, and `/rpi-implement` commands will then be available.
+
+### Codex CLI
+
+```bash
+git clone https://github.com/tmdroid/claude-rpi.git
+cd claude-rpi
+bash codex/install.sh
+```
+
+This symlinks skills into `~/.agents/skills/` and adds agent role definitions to your Codex config. The same `/rpi` commands are then available in Codex.
+
+To uninstall:
+
+```bash
+bash codex/install.sh --uninstall
+```
+
+## Cross-Platform Compatibility
+
+The RPI workflow uses the same SKILL.md format supported by both Claude Code and Codex CLI. The skills detect which platform they're running on and adapt agent dispatch and user interaction accordingly:
+
+| Feature | Claude Code | Codex CLI |
+|---------|-------------|-----------|
+| Skills format | SKILL.md | SKILL.md (identical) |
+| Agent dispatch | `Task` tool with `subagent_type` | `codex exec --role` |
+| User questions | `AskUserQuestion` | `AskUserTool` |
+| Agent definitions | `agents/*.md` (YAML frontmatter) | `codex/agents/*.toml` |
+| Team mode | `TeamCreate` (native) | Not yet available |
+| Plugin bundling | `.claude-plugin/plugin.json` | Manual install via script |
 
 ## Quick Start
 
@@ -188,7 +217,7 @@ These files persist across sessions, so you can:
 ## Credits
 
 - Methodology inspired by [Boris Tane's article](https://boristane.com/blog/how-i-use-claude-code/) on the Research-Plan-Implement workflow
-- Built for Anthropic's [Claude Code](https://claude.ai/code)
+- Built for [Claude Code](https://claude.ai/code) and [Codex CLI](https://github.com/openai/codex)
 
 ## License
 

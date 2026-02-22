@@ -10,6 +10,14 @@ You are running the **Planning phase only** from the RPI methodology.
 
 **Announce:** "Running RPI Planning phase — iterative plan creation with annotation support"
 
+## Platform Detection
+
+Detect your environment:
+- If the `Task` tool is available with `subagent_type` → **Claude Code**
+- If `codex exec` or Codex agent roles are available → **Codex CLI**
+
+**Asking the user:** use `AskUserQuestion` (Claude Code) or `AskUserTool` (Codex CLI).
+
 ## Process
 
 ### 1. Locate Research
@@ -29,8 +37,9 @@ Ask the user:
 
 ### 3. Dispatch Planner
 
-Use the Task tool to dispatch the **planner** agent:
+Dispatch the **planner** agent:
 
+**Claude Code:**
 ```
 Task tool:
   subagent_type: claude-rpi:planner
@@ -43,6 +52,11 @@ Task tool:
     Desired outcome: [from user]
 
     Write the plan to: docs/rpi/YYYY-MM-DD-<topic>/plan.md
+```
+
+**Codex CLI:**
+```
+codex exec --role rpi-planner "Create implementation plan. Research: [path to research.md]. Task type: [type]. Outcome: [outcome]. Write to: docs/rpi/YYYY-MM-DD-<topic>/plan.md"
 ```
 
 ### 4. Annotation Cycle

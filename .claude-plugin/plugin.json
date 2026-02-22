@@ -1,7 +1,7 @@
 {
   "name": "claude-rpi",
-  "description": "Research-Plan-Implement: A systematic workflow for AI-assisted software development. Enforces deep codebase research, iterative planning with annotation cycles, and supervised implementation with specialized agents.",
-  "version": "0.1.0",
+  "description": "Research-Plan-Implement: A systematic workflow for AI-assisted software development. Works with both Claude Code and OpenAI Codex CLI. Enforces deep codebase research, iterative planning with annotation cycles, and supervised implementation with specialized agents.",
+  "version": "0.2.0",
   "author": {
     "name": "tmdroid",
     "url": "https://github.com/tmdroid"
@@ -16,7 +16,9 @@
     "implementation",
     "methodology",
     "agents",
-    "teams"
+    "teams",
+    "codex",
+    "cross-platform"
   ],
   "skills": "./skills/"
 }

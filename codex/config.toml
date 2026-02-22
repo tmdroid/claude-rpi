@@ -1,0 +1,32 @@
+# Codex CLI agent role definitions for the RPI (Research-Plan-Implement) workflow.
+# Merge into your ~/.codex/config.toml or .codex/config.toml to enable.
+
+[agents.rpi-researcher]
+description = "Deep codebase exploration agent — maps architecture, traces dependencies, identifies patterns and gotchas, produces structured research reports"
+config_file = "codex/agents/researcher.toml"
+sandbox_mode = "read-only"
+
+[agents.rpi-planner]
+description = "Transforms research findings into actionable implementation plans with annotation cycle support"
+config_file = "codex/agents/planner.toml"
+sandbox_mode = "read-write"
+
+[agents.rpi-feature-implementer]
+description = "Executes approved implementation plans for new features — follows plan step-by-step, marks progress, runs tests continuously"
+config_file = "codex/agents/feature-implementer.toml"
+sandbox_mode = "read-write"
+
+[agents.rpi-debugger]
+description = "Systematic bug investigation — reproduces issues, traces execution, forms and tests hypotheses one at a time, documents root cause"
+config_file = "codex/agents/debugger.toml"
+sandbox_mode = "read-write"
+
+[agents.rpi-bugfixer]
+description = "Targeted bug fixing with TDD — regression test first, minimal surgical fix, then checks for similar patterns"
+config_file = "codex/agents/bugfixer.toml"
+sandbox_mode = "read-write"
+
+[agents.rpi-refactorer]
+description = "Incremental code restructuring — ensures test coverage, applies changes one at a time, verifies behavior preservation after each step"
+config_file = "codex/agents/refactorer.toml"
+sandbox_mode = "read-write"

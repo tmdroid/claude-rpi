@@ -10,6 +10,14 @@ You are running the **Research phase only** from the RPI methodology.
 
 **Announce:** "Running RPI Research phase — deep codebase exploration"
 
+## Platform Detection
+
+Detect your environment:
+- If the `Task` tool is available with `subagent_type` → **Claude Code**
+- If `codex exec` or Codex agent roles are available → **Codex CLI**
+
+**Asking the user:** use `AskUserQuestion` (Claude Code) or `AskUserTool` (Codex CLI).
+
 ## Process
 
 ### 1. Context Gathering
@@ -23,8 +31,9 @@ Create session directory: `docs/rpi/YYYY-MM-DD-<topic>/`
 
 ### 2. Dispatch Researcher
 
-Use the Task tool to dispatch the **researcher** agent:
+Dispatch the **researcher** agent:
 
+**Claude Code:**
 ```
 Task tool:
   subagent_type: claude-rpi:researcher
@@ -36,7 +45,12 @@ Task tool:
     Write your findings to: docs/rpi/YYYY-MM-DD-<topic>/research.md
 ```
 
-If TeamCreate is available and the research scope is large, offer parallel research.
+**Codex CLI:**
+```
+codex exec --role rpi-researcher "Research the codebase for: [topic/description]. Focus areas: [areas]. Write findings to: docs/rpi/YYYY-MM-DD-<topic>/research.md"
+```
+
+If TeamCreate is available (Claude Code) and the research scope is large, offer parallel research.
 
 ### 3. Present Findings
 

@@ -10,6 +10,14 @@ You are running the **Implementation phase only** from the RPI methodology.
 
 **Announce:** "Running RPI Implementation phase — executing approved plan"
 
+## Platform Detection
+
+Detect your environment:
+- If the `Task` tool is available with `subagent_type` → **Claude Code**
+- If `codex exec` or Codex agent roles are available → **Codex CLI**
+
+**Asking the user:** use `AskUserQuestion` (Claude Code) or `AskUserTool` (Codex CLI).
+
 ## Process
 
 ### 1. Locate Plan
@@ -35,6 +43,14 @@ Read the plan to determine the task type. If unclear, ask:
 
 Based on task type, dispatch the appropriate agent:
 
+| Task Type | Claude Code Agent | Codex Role |
+|-----------|-------------------|------------|
+| New feature | `claude-rpi:feature-implementer` | `rpi-feature-implementer` |
+| Bug fix | `claude-rpi:bugfixer` | `rpi-bugfixer` |
+| Debugging | `claude-rpi:debugger` | `rpi-debugger` |
+| Refactor | `claude-rpi:refactorer` | `rpi-refactorer` |
+
+**Claude Code:**
 ```
 Task tool:
   subagent_type: claude-rpi:[agent-name]
@@ -50,7 +66,12 @@ Task tool:
     If you hit something not covered by the plan, stop and ask.
 ```
 
-If TeamCreate is available and the plan has independent tasks, offer parallel implementation.
+**Codex CLI:**
+```
+codex exec --role rpi-[agent-name] "Implement the approved plan. Plan: [path to plan.md]. Research: [path to research.md]. Follow plan exactly. Mark checkboxes. Run tests. Stop and ask if uncovered."
+```
+
+If TeamCreate is available (Claude Code) and the plan has independent tasks, offer parallel implementation.
 
 ### 4. Supervision
 

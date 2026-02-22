@@ -12,6 +12,21 @@ You are orchestrating the RPI methodology — a systematic workflow for AI-assis
 
 **Announce:** "Using RPI workflow: Research → Plan → Implement"
 
+## Platform Detection
+
+Before starting, detect your environment by checking which tools are available:
+
+- If the `Task` tool is available with a `subagent_type` parameter → you are in **Claude Code**
+- If `codex exec` or Codex agent roles are available → you are in **Codex CLI**
+- Default to Claude Code conventions if unclear
+
+This determines how you dispatch agents and interact with the user throughout the workflow. Refer to the platform-specific instructions in each dispatch section below.
+
+**Asking the user questions:**
+- In **Claude Code**: use the `AskUserQuestion` tool
+- In **Codex CLI**: use the `AskUserTool` tool
+- Both accept the same structure: `text`, `header`, `options` (label + description), `multiSelect`
+
 ## Phase 0: Task Classification
 
 Start by understanding what kind of work this is. Use AskUserQuestion:
@@ -53,8 +68,9 @@ Do NOT proceed to Phase 2 until the user has reviewed the research findings and 
 
 ### Dispatch Researcher
 
-Use the Task tool to dispatch the **researcher** agent:
+Dispatch the **researcher** agent using your platform's mechanism:
 
+**Claude Code** — use the Task tool:
 ```
 Task tool:
   subagent_type: claude-rpi:researcher
@@ -71,6 +87,11 @@ Task tool:
 
     [For refactor tasks, add:]
     Focus on: current architecture, test coverage, public interfaces
+```
+
+**Codex CLI** — spawn the `rpi-researcher` role:
+```
+codex exec --role rpi-researcher "Research the codebase for: [task description]. Task type: [type]. Areas: [areas]. Write findings to: docs/rpi/YYYY-MM-DD-<topic>/research.md"
 ```
 
 ### Team Option
@@ -106,8 +127,9 @@ Do NOT proceed to Phase 3 until the user has explicitly approved the plan. The a
 
 ### Dispatch Planner
 
-Use the Task tool to dispatch the **planner** agent:
+Dispatch the **planner** agent using your platform's mechanism:
 
+**Claude Code** — use the Task tool:
 ```
 Task tool:
   subagent_type: claude-rpi:planner
@@ -121,6 +143,11 @@ Task tool:
     Constraints: [from context gathering]
 
     Write the plan to: docs/rpi/YYYY-MM-DD-<topic>/plan.md
+```
+
+**Codex CLI** — spawn the `rpi-planner` role:
+```
+codex exec --role rpi-planner "Create implementation plan. Research: docs/rpi/YYYY-MM-DD-<topic>/research.md. Task type: [type]. Outcome: [outcome]. Constraints: [constraints]. Write to: docs/rpi/YYYY-MM-DD-<topic>/plan.md"
 ```
 
 ### Annotation Cycle
@@ -161,13 +188,14 @@ After the planner returns:
 
 Based on the task type from Phase 0, dispatch the appropriate agent:
 
-| Task Type | Agent | Focus |
-|-----------|-------|-------|
-| New feature | `claude-rpi:feature-implementer` | Follow plan step by step |
-| Bug fix | `claude-rpi:bugfixer` | TDD: regression test → fix → verify |
-| Debugging | `claude-rpi:debugger` | If root cause not yet found; else bugfixer |
-| Refactor | `claude-rpi:refactorer` | Incremental changes with test safety |
+| Task Type | Claude Code Agent | Codex Role | Focus |
+|-----------|-------------------|------------|-------|
+| New feature | `claude-rpi:feature-implementer` | `rpi-feature-implementer` | Follow plan step by step |
+| Bug fix | `claude-rpi:bugfixer` | `rpi-bugfixer` | TDD: regression test → fix → verify |
+| Debugging | `claude-rpi:debugger` | `rpi-debugger` | If root cause not yet found; else bugfixer |
+| Refactor | `claude-rpi:refactorer` | `rpi-refactorer` | Incremental changes with test safety |
 
+**Claude Code** — use the Task tool:
 ```
 Task tool:
   subagent_type: claude-rpi:[agent-name]
@@ -181,6 +209,11 @@ Task tool:
     Follow the plan exactly. Mark checkboxes as you complete each task.
     Run tests after each significant change.
     If you hit something not covered by the plan, stop and ask.
+```
+
+**Codex CLI** — spawn the appropriate role:
+```
+codex exec --role rpi-[agent-name] "Implement the approved plan. Plan: docs/rpi/YYYY-MM-DD-<topic>/plan.md. Research: docs/rpi/YYYY-MM-DD-<topic>/research.md. Follow plan exactly. Mark checkboxes. Run tests after each change. Stop and ask if something is not covered."
 ```
 
 ### Team Option for Implementation
